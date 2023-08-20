@@ -6,6 +6,7 @@ import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash'
 import { resolveProductionUrl } from './resolveProductionUrl'
 import { author } from './schemas/author'
 import { post } from './schemas/post'
+import { websiteConfig } from './schemas/websiteConfig'
 
 const title =
   import.meta.env.NEXT_PUBLIC_SANITY_PROJECT_TITLE ||
@@ -20,7 +21,7 @@ export default defineConfig({
   title,
   schema: {
     // If you want more content types, you can add them to this array
-    types: [author, post],
+    types: [author, post, websiteConfig],
   },
   document: {
     productionUrl: resolveProductionUrl,

@@ -12,6 +12,7 @@ import PostBody from './post-body'
 import SectionSeparator from './section-separator'
 import MoreStories from './more-stories'
 
+
 export default function Post({ data = {}, preview = false }) {
   const router = useRouter()
 
@@ -23,9 +24,10 @@ export default function Post({ data = {}, preview = false }) {
   }
 
   return (
+
     <Layout preview={preview}>
       <Container>
-        <Header />
+        <Header/>
         {router.isFallback ? (
           <PostTitle>Loading…</PostTitle>
         ) : (
@@ -33,7 +35,7 @@ export default function Post({ data = {}, preview = false }) {
             <article>
               <Head>
                 <title>
-                  {`${post.title} | Next.js Blog Example with ${CMS_NAME}`}
+                  {`${post.title} | Stories at CF ${CMS_NAME}`}
                 </title>
                 {post.coverImage?.asset?._ref && (
                   <meta

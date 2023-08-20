@@ -5,17 +5,19 @@ import Container from './container'
 import Intro from './intro'
 import HeroPost from './hero-post'
 import MoreStories from './more-stories'
+import { WebsiteConfigProvider } from './websiteConfigProvider'
 
-export default function Landing({ allPosts, preview }) {
+export default function Landing({ allPosts,websiteConfig, preview }) {
   const [heroPost, ...morePosts] = allPosts || []
   return (
     <>
+   
       <Layout preview={preview}>
         <Head>
-          <title>{`Next.js Blog Example with ${CMS_NAME}`}</title>
+          <title>{`Stories at Cynsar Foundation captured by its members ${CMS_NAME}`}</title>
         </Head>
         <Container>
-          <Intro />
+          <Intro data={websiteConfig} false />
           {heroPost && (
             <HeroPost
               title={heroPost.title}

@@ -1,8 +1,9 @@
 import { usePreview } from '../lib/sanity'
-import { indexQuery } from '../lib/queries'
+import { indexQuery, websiteConfigQuery } from '../lib/queries'
 import Landing from './landing'
 
-export default function LandingPreview({ allPosts }) {
+export default function LandingPreview({ allPosts, websiteConfig }) {
   const previewAllPosts = usePreview(null, indexQuery)
-  return <Landing data={previewAllPosts ?? allPosts} preview />
+  const previewWebsiteConfig = usePreview(null, websiteConfigQuery)
+  return <Landing data={previewAllPosts ?? allPosts}  websiteConfig={previewWebsiteConfig ?? websiteConfig} preview />
 }
