@@ -44,6 +44,34 @@ export const post = {
       type: 'datetime',
     },
     {
+      name: 'steps',
+      title: 'Steps',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'stepTitle',
+              title: 'Step Title',
+              type: 'string',
+            },
+            {
+              name: 'stepContent',
+              title: 'Step Content',
+              type: 'text',
+            },
+          ],
+          preview: {
+            select: {
+              title: 'stepTitle',
+              subtitle: 'stepContent',
+            },
+          },
+        },
+      ]
+    },
+    {
       name: 'author',
       title: 'Author',
       type: 'reference',
@@ -62,3 +90,4 @@ export const post = {
     },
   },
 }
+
