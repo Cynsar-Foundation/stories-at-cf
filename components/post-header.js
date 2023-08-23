@@ -3,15 +3,14 @@ import Date from '../components/date'
 import CoverImage from '../components/cover-image'
 import PostTitle from '../components/post-title'
 import ScrollamaService from './scrollamaService'
+import { fetchSteps } from './services'
+import { useEffect, useState } from 'react'
 
 
-export default function PostHeader({ title, coverImage, date, author }) {
-  const steps = [
-    "Step 1 content",
-    "Step 2 content",
-    "Step 3 content",
-    // ... add as many steps as needed
-  ];
+export default function PostHeader({ title, coverImage, date, author , steps}) {
+
+  
+
   return (
     <>
       <PostTitle>{title}</PostTitle>
@@ -19,7 +18,7 @@ export default function PostHeader({ title, coverImage, date, author }) {
         {author && <Avatar name={author.name} picture={author.picture} />}
       </div>
     
-      <ScrollamaService steps={steps}>
+      <ScrollamaService steps={steps.map(step => step.stepContent)}>
       <CoverImage title={title} image={coverImage} priority />
         </ScrollamaService>
       <div className="max-w-2xl mx-auto mt-8">

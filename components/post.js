@@ -11,13 +11,29 @@ import PostHeader from './post-header'
 import PostBody from './post-body'
 import SectionSeparator from './section-separator'
 import MoreStories from './more-stories'
+import { fetchSteps } from './services'
+import { useEffect, useState } from 'react'
 
 
 export default function Post({ data = {}, preview = false }) {
   const router = useRouter()
 
+
+
   const { post, morePosts } = data
   const slug = post?.slug
+
+  const [steps, setSteps] = useState([]);
+  const coverImageSteps = steps.filter(step => step.stepTitle === "Cover Image");
+
+
+  useEffect(() => {
+    async function getSteps() {
+      const fetchedSteps = await fetchSteps(slug);
+      setSteps(fetchedSteps);
+    }
+    getSteps();
+  }, [slug]);
 
   if (!router.isFallback && !slug) {
     return <ErrorPage statusCode={404} />
@@ -54,8 +70,9 @@ export default function Post({ data = {}, preview = false }) {
                 coverImage={post.coverImage}
                 date={post.date}
                 author={post.author}
+                steps={coverImageSteps}
               />
-              <PostBody content={post.content} />
+              <PostBody content={post.content} stepsData={steps} />
             </article>
             <SectionSeparator />
             {morePosts.length > 0 && <MoreStories posts={morePosts} />}

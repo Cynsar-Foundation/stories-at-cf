@@ -6,10 +6,15 @@ import { urlForImage } from '../lib/sanity'
 export default function CoverImage({ title, slug, image: source, priority }) {
   const image = source?.asset?._ref ? (
     <div
-      className={cn('shadow-small', {
+      className={cn('relative shadow-small', {
         'hover:shadow-medium transition-shadow duration-200': slug,
       })}
     >
+      {/* Semi-Transparent Overlay */}
+      <div
+        className="absolute inset-0 bg-black opacity-50"
+        aria-hidden="true"
+      />
       <Image
         className="w-full h-auto"
         width={2000}
