@@ -10,7 +10,7 @@ import { websiteConfig } from './schemas/websiteConfig'
 
 const title =
   import.meta.env.NEXT_PUBLIC_SANITY_PROJECT_TITLE ||
-  'Next.js Blog with Sanity.io'
+  'Stories at Cynsar Foundation with Sanity.io'
 const projectId = import.meta.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 const dataset = import.meta.env.NEXT_PUBLIC_SANITY_DATASET
 
