@@ -5,7 +5,7 @@ import Container from './container'
 import Intro from './intro'
 import HeroPost from './hero-post'
 import MoreStories from './more-stories'
-import { WebsiteConfigProvider } from './websiteConfigProvider'
+
 
 export default function Landing({ allPosts,websiteConfig, preview }) {
   const [heroPost, ...morePosts] = allPosts || []
@@ -23,7 +23,7 @@ export default function Landing({ allPosts,websiteConfig, preview }) {
               title={heroPost.title}
               coverImage={heroPost.coverImage}
               date={heroPost.date}
-              author={heroPost.author}
+              authors={heroPost.authors}
               slug={heroPost.slug}
               excerpt={heroPost.excerpt}
             />

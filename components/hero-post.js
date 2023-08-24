@@ -8,7 +8,7 @@ export default function HeroPost({
   coverImage,
   date,
   excerpt,
-  author,
+  authors,
   slug,
 }) {
   return (
@@ -29,7 +29,9 @@ export default function HeroPost({
         </div>
         <div>
           <p className="mb-4 text-lg leading-relaxed">{excerpt}</p>
-          {author && <Avatar name={author.name} picture={author.picture} />}
+          {authors && authors.map((author, index) => (
+          <Avatar key={index} name={author.name} picture={author.picture} />
+        ))}
         </div>
       </div>
     </section>

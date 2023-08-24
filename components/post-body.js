@@ -1,14 +1,15 @@
-import markdownStyles from './markdown-styles.module.css'
-import { PortableText } from '@portabletext/react'
-import ScrollamaService from './scrollamaService';
-import CoverImageUrl from './coverImage';
+import markdownStyles from './markdown-styles.module.css';
+import { PortableText } from '@portabletext/react';
 import ScrollamaServiceLeft from './scrollamaServiceLeft';
-import ScrollamaServiceRight from './srollamaServicesRight';
+import ScrollamaServicesRight from './srollamaServicesRight';
+import { urlForImage } from '../lib/sanity';
+import { useEffect, useState } from 'react';
 
 export default function PostBody({ content, stepsData }) {
-  const insideBlogStep = stepsData.filter(step => step.stepTitle === "Inside Blog");
+  const insideBlogStepLeft = stepsData.filter(step => step.stepTitle === "Inside Blog Left");
+  const insideBlogStepRight = stepsData.filter(step => step.stepTitle === "Inside Blog Right");
 
-  if (!insideBlogStep) {
+  if (!insideBlogStepLeft.length && !insideBlogStepRight.length) {
     return (
       <div className={`max-w-2xl mx-auto ${markdownStyles.markdown}`}>
         <PortableText value={content} />
@@ -16,27 +17,67 @@ export default function PostBody({ content, stepsData }) {
     );
   }
 
-  const stepImages = [
-    "https://images.unsplash.com/photo-1682687981630-cefe9cd73072?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1742&q=80",
-    "https://plus.unsplash.com/premium_photo-1692387164064-5678bd9f1ff3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
-    // ... add more images corresponding to each step
-  ];
+  const extractImages = (insideBlog, allImageUrls) => {
+    insideBlog.forEach(data => {
+      if (data && Array.isArray(data.images)) {
+        const imageUrls = data.images.map(imageObj => 
+          urlForImage(imageObj.asset).height(800).width(500).url()
+        );
+        allImageUrls.push(...imageUrls);
+      }
+    });
+  };
+
+  const allImageUrlsLeft = [];
+  const allImageUrlsRight = [];
+  extractImages(insideBlogStepLeft, allImageUrlsLeft);
+  extractImages(insideBlogStepRight, allImageUrlsRight);
+
+  const [loadedImagesCount, setLoadedImagesCount] = useState(0);
+
+  useEffect(() => {
+    if (loadedImagesCount === allImageUrlsLeft.length + allImageUrlsRight.length) {
+      // All images have loaded
+    }
+  }, [loadedImagesCount]);
+
+  const handleImageLoad = () => {
+    setLoadedImagesCount(prevCount => prevCount + 1);
+  };
+
+  const splitIndex = Math.floor(content.length / 3);
+  const secondSplitIndex = Math.floor(2 * content.length / 3);
   
-  const splitIndex = Math.floor(content.length/ 2)
-
   const beforeSection = content.slice(0, splitIndex);
-  const afterSection = content.slice(splitIndex);
-
-  // Divide the content, and make the Scrollama for left and righ , based on that feed the content with image as a slider.
+  const afterSection = content.slice(splitIndex, secondSplitIndex);
+  const postAfterSection = content.slice(secondSplitIndex)
 
   return (
     <div className={`${markdownStyles.markdown}`}>
-    
-    <div className='max-w-2xl mx-auto'> <PortableText value={beforeSection} /> </div>
-    
-    <ScrollamaServiceLeft stepsData={insideBlogStep.map(step => step.stepContent)} images={stepImages}></ScrollamaServiceLeft>
-    <div className='max-w-2xl mx-auto'><PortableText value={afterSection} /> </div>
-    <ScrollamaServiceRight stepsData={insideBlogStep.map(step => step.stepContent)} images={stepImages}></ScrollamaServiceRight>
+      {[...allImageUrlsLeft, ...allImageUrlsRight].map(url => (
+        <img key={url} src={url} alt="Step related" onLoad={handleImageLoad} style={{ display: 'none' }} />
+      ))}
+      {loadedImagesCount === allImageUrlsLeft.length + allImageUrlsRight.length && (
+        <>
+          <div className='max-w-2xl mx-auto'> 
+            <PortableText value={beforeSection} /> 
+          </div>
+          <ScrollamaServiceLeft 
+            stepsData={insideBlogStepLeft.map(step => step.stepContent)} 
+            images={allImageUrlsLeft}
+          />
+          <div className='max-w-2xl mx-auto'>
+            <PortableText value={afterSection} /> 
+          </div>
+          <ScrollamaServicesRight 
+            stepsData={insideBlogStepRight.map(step => step.stepContent)} 
+            images={allImageUrlsRight}
+          />
+          <div className='max-w-2xl mx-auto'>
+            <PortableText value={postAfterSection} /> 
+          </div>
+        </>
+      )}
     </div>
-  )
+  );
 }

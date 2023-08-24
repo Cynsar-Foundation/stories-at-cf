@@ -69,7 +69,7 @@ export default function Post({ data = {}, preview = false }) {
                 title={post.title}
                 coverImage={post.coverImage}
                 date={post.date}
-                author={post.author}
+                authors={post.authors}
                 steps={coverImageSteps}
               />
               <PostBody content={post.content} stepsData={steps} />

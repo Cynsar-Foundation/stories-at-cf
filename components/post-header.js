@@ -7,7 +7,7 @@ import { fetchSteps } from './services'
 import { useEffect, useState } from 'react'
 
 
-export default function PostHeader({ title, coverImage, date, author , steps}) {
+export default function PostHeader({ title, coverImage, date, authors , steps}) {
 
   
 
@@ -15,7 +15,9 @@ export default function PostHeader({ title, coverImage, date, author , steps}) {
     <>
       <PostTitle>{title}</PostTitle>
       <div className="container mx-auto px-5 hidden md:block md:mb-12">
-        {author && <Avatar name={author.name} picture={author.picture} />}
+        {authors && authors.map((author, index) => (
+          <Avatar key={index} name={author.name} picture={author.picture} />
+        ))}
       </div>
     
       <ScrollamaService steps={steps.map(step => step.stepContent)}>
@@ -23,7 +25,9 @@ export default function PostHeader({ title, coverImage, date, author , steps}) {
         </ScrollamaService>
       <div className="max-w-2xl mx-auto mt-8">
           <div className="block mb-6 md:hidden">
-            {author && <Avatar name={author.name} picture={author.picture} />}
+          {authors && authors.map((author, index) => (
+            <Avatar key={index} name={author.name} picture={author.picture} />
+          ))}
           </div>
           <div className="mb-6 text-lg">
             <Date dateString={date} />

@@ -1,3 +1,8 @@
+export const PLANS = [
+  {title: 'Cover Image', value: 'Cover Image'},
+  {title: 'Inside Blog Left', value: 'Inside Blog Left'},
+  {title: 'Inside Blog Right', value: 'Inside Blog Right'}
+]
 export const post = {
   name: 'post',
   title: 'Post',
@@ -55,12 +60,24 @@ export const post = {
               name: 'stepTitle',
               title: 'Step Title',
               type: 'string',
+              options: {
+                list: PLANS.map(({title, value}) => ({title, value})),
+              },
             },
             {
               name: 'stepContent',
               title: 'Step Content',
               type: 'text',
             },
+            {
+              name: 'images',
+              title: 'Images',
+              type: 'array',
+              of: [{ type: 'image' }],
+              options: {
+                layout: 'grid' // This will display the images in a grid layout in the studio
+              }
+            }
           ],
           preview: {
             select: {
@@ -72,21 +89,29 @@ export const post = {
       ]
     },
     {
-      name: 'author',
-      title: 'Author',
-      type: 'reference',
-      to: [{ type: 'author' }],
+      name: 'authors',
+      title: 'Authors',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'author' }],
+        },
+      ],
     },
   ],
   preview: {
     select: {
       title: 'title',
-      author: 'author.name',
+      authors: 'authors[].name',
       media: 'coverImage',
     },
     prepare(selection) {
-      const { author } = selection
-      return { ...selection, subtitle: author && `by ${author}` }
+      const { authors } = selection;
+      return {
+        ...selection,
+        subtitle: authors && authors.length > 0 ? `by ${authors.join(', ')}` : '',
+      };
     },
   },
 }

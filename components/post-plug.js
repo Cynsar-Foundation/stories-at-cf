@@ -8,7 +8,7 @@ export default function PostPlug({
   coverImage,
   date,
   excerpt,
-  author,
+  authors,
   slug,
 }) {
   return (
@@ -25,7 +25,9 @@ export default function PostPlug({
         <Date dateString={date} />
       </div>
       <p className="mb-4 text-lg leading-relaxed">{excerpt}</p>
-      {author && <Avatar name={author.name} picture={author.picture} />}
+      {authors && authors.map((author, index) => (
+          <Avatar key={index} name={author.name} picture={author.picture} />
+        ))}
     </div>
   )
 }
