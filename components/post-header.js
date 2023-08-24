@@ -21,8 +21,8 @@ export default function PostHeader({ title, coverImage, date, authors , steps}) 
       </div>
     
       <ScrollamaService steps={steps.map(step => step.stepContent)}>
-      <CoverImage title={title} image={coverImage} priority />
-        </ScrollamaService>
+        <CoverImage title={title} image={coverImage} priority />
+      </ScrollamaService>
       <div className="max-w-2xl mx-auto mt-8">
           <div className="block mb-6 md:hidden">
           {authors && authors.map((author, index) => (
