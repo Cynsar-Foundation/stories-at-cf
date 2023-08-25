@@ -78,6 +78,18 @@ export default function PostBody({ content, stepsData }) {
           </div>
         </>
       )}
+      <div className="bg-gray-100 p-8 rounded-lg mt-10 max-w-5xl mx-auto ">
+  <div className="flex justify-between items-center">
+    <div className="text-gray-700">
+      <h2 className="text-2xl font-bold">We Need Your Support!</h2>
+      <p className="mt-2">Help us in bringing these impactful stories to light.</p>
+    </div>
+    <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+      Donate Now
+    </button>
+  </div>
+</div>
+
     </div>
   );
 }

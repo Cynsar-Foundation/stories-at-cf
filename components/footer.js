@@ -31,8 +31,8 @@ export default function Footer() {
             © {new Date().getFullYear()} Cynsar Foundation. All rights reserved.
           </p>
           <div className="mt-4 flex justify-center space-x-6">
-            <a href="/privacy-policy" className="text-sm hover:underline">Privacy Policy</a>
-            <a href="/terms-of-service" className="text-sm hover:underline">Terms of Service</a>
+            <a href="https://cynsar.foundation/blog/people/privacy-policy" className="text-sm hover:underline">Privacy Policy</a>
+            <a href="https://cynsar.foundation/blog/people/terms-and-conditions" className="text-sm hover:underline">Terms of Service</a>
           </div>
         </div>
       </Container>
