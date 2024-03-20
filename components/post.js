@@ -1,31 +1,29 @@
-import { useRouter } from 'next/router'
-import { urlForImage } from '../lib/sanity'
-import ErrorPage from 'next/error'
-import Layout from './layout'
-import Container from './container'
-import Header from './header'
-import PostTitle from './post-title'
-import Head from 'next/head'
-import { CMS_NAME } from '../lib/constants'
-import PostHeader from './post-header'
-import PostBody from './post-body'
-import SectionSeparator from './section-separator'
-import MoreStories from './more-stories'
-import { fetchSteps } from './services'
-import { useEffect, useState } from 'react'
-
+import { useRouter } from "next/router";
+import { urlForImage } from "../lib/sanity";
+import ErrorPage from "next/error";
+import Layout from "./layout";
+import Container from "./container";
+import Header from "./header";
+import PostTitle from "./post-title";
+import Head from "next/head";
+import { CMS_NAME } from "../lib/constants";
+import PostHeader from "./post-header";
+import PostBody from "./post-body";
+import SectionSeparator from "./section-separator";
+import MoreStories from "./more-stories";
+import { fetchSteps } from "./services";
+import { useEffect, useState } from "react";
 
 export default function Post({ data = {}, preview = false }) {
-  const router = useRouter()
+  const router = useRouter();
 
-
-
-  const { post, morePosts } = data
-  const slug = post?.slug
+  const { post, morePosts } = data;
+  const slug = post?.slug;
 
   const [steps, setSteps] = useState([]);
-  const coverImageSteps = steps.filter(step => step.stepTitle === "Cover Image");
-
+  const coverImageSteps = steps
+    ? steps.filter((step) => step.stepTitle === "Cover Image")
+    : [];
 
   useEffect(() => {
     async function getSteps() {
@@ -36,23 +34,20 @@ export default function Post({ data = {}, preview = false }) {
   }, [slug]);
 
   if (!router.isFallback && !slug) {
-    return <ErrorPage statusCode={404} />
+    return <ErrorPage statusCode={404} />;
   }
 
   return (
-
     <Layout preview={preview}>
       <Container>
-        <Header/>
+        <Header />
         {router.isFallback ? (
           <PostTitle>Loading…</PostTitle>
         ) : (
           <>
             <article>
               <Head>
-                <title>
-                  {`${post.title} | Stories at CF ${CMS_NAME}`}
-                </title>
+                <title>{`${post.title} | Stories at CF ${CMS_NAME}`}</title>
                 {post.coverImage?.asset?._ref && (
                   <meta
                     key="ogImage"
@@ -60,7 +55,7 @@ export default function Post({ data = {}, preview = false }) {
                     content={urlForImage(post.coverImage)
                       .width(1200)
                       .height(627)
-                      .fit('crop')
+                      .fit("crop")
                       .url()}
                   />
                 )}
@@ -80,5 +75,5 @@ export default function Post({ data = {}, preview = false }) {
         )}
       </Container>
     </Layout>
-  )
+  );
 }
